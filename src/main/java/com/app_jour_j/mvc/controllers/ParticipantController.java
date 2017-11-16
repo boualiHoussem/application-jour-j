@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.app_jour_j.mvc.entities.Participant;
 import com.app_jour_j.mvc.services.IParticipantService;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -81,25 +82,43 @@ public class ParticipantController {
 	
 	private void generatePdf(Participant participant){
 		Document doc = new Document();
-		
+		Document docFullInfo = new Document();
+
 		try {
 			PdfWriter.getInstance(doc, new FileOutputStream(
 					getClass().getResource("/pdf/participants/").getFile() 
 					+ participant.getIdParticipant()
 					+"_"+participant.getNom() + ".pdf"));
+			PdfWriter.getInstance(docFullInfo, new FileOutputStream(
+					getClass().getResource("/pdf/participants/").getFile() 
+					+ participant.getIdParticipant()
+					+"_full_"+participant.getNom() + ".pdf"));
+			System.out.println(getClass().getResource("/pdf/participants/").getFile() 
+					+ participant.getIdParticipant()
+					+"_full_"+participant.getNom() + ".pdf");
 			Rectangle size = new Rectangle(228, 150);
 			doc.setPageSize(size);
+			docFullInfo.setPageSize(size);
 			doc.addAuthor(EnseignantController.AUTHOR);
+			docFullInfo.addAuthor(EnseignantController.AUTHOR);
 			doc.addTitle("Participant");
+			docFullInfo.addTitle("Participant_full");
 			doc.open();
-			Phrase infos = new Phrase("Nom : " + participant.getNom() +  
-									 		"\nPrénom : " + participant.getPrenom() + 
-									 		"\nEtablissement : " + participant.getEtablissement());
+			docFullInfo.open();
+			Phrase infos = new Phrase("Nom : " + participant.getNom() + 
+									  "\nPrenom : " + participant.getPrenom() + 
+									  "\nEtablissement : " + participant.getEtablissement(),
+									  FontFactory.getFont(FontFactory.COURIER, 10));
+			Phrase fullInfos = new Phrase(participant.toString(),FontFactory.getFont(FontFactory.COURIER, 10));
 			doc.add(infos);
+			docFullInfo.add(fullInfos);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		doc.close();
+		docFullInfo.close();
+
 		
 	}
 }

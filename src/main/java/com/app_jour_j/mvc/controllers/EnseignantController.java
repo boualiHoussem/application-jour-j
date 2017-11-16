@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.app_jour_j.mvc.entities.Enseignant;
 import com.app_jour_j.mvc.services.IEnseignantService;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -92,6 +93,9 @@ public class EnseignantController {
 					getClass().getResource("/pdf/enseignants/").getFile() 
 					+ enseignant.getIdProfessor()
 					+"_full_"+enseignant.getNom() + ".pdf"));
+			System.out.println(getClass().getResource("/pdf/enseignants/").getFile() 
+					+ enseignant.getIdProfessor()
+					+"_full_"+enseignant.getNom() + ".pdf");
 			Rectangle size = new Rectangle(228, 150);
 			doc.setPageSize(size);
 			docFullInfo.setPageSize(size);
@@ -102,9 +106,10 @@ public class EnseignantController {
 			doc.open();
 			docFullInfo.open();
 			Phrase infos = new Phrase("Nom : " + enseignant.getNom() + 
-									  "\nPrénom : " + enseignant.getPrenom() + 
-									  "\nGrade : " + enseignant.getGrade());
-			Phrase fullInfos = new Phrase(enseignant.toString());
+									  "\nPrï¿½nom : " + enseignant.getPrenom() + 
+									  "\nGrade : " + enseignant.getGrade(),
+									  FontFactory.getFont(FontFactory.COURIER, 10));
+			Phrase fullInfos = new Phrase(enseignant.toString(),FontFactory.getFont(FontFactory.COURIER, 10));
 			doc.add(infos);
 			docFullInfo.add(fullInfos);
 			

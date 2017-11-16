@@ -83,4 +83,14 @@ public class Media implements Serializable {
 		this.email = email;
 	}
 
+	public String toString() {
+
+		String str =  "Nom : " + this.getNom() 
+					+ "\nPrenom : " + this.getPrenom()
+					+ "\nStatut : " + this.getStatut()
+					+ "\nChaine : " +this.getChaine()
+					+ "\nN° Telephone : " + this.getNumTelephone()
+					+ "\nE-mail : " + this.getEmail();
+		return str;
+	}
 }

@@ -73,5 +73,14 @@ public class Participant implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public String toString() {
+
+		String str =  "Nom : " + this.getNom() 
+					+ "\nPrenom : " + this.getPrenom()
+					+ "\nStatut : " + this.getStatut()
+					+ "\nEtablissement : " +this.getEtablissement()
+					+ "\nE-mail : " + this.getEmail();
+		return str;
+	}
 
 }

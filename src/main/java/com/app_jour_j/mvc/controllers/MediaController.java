@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.app_jour_j.mvc.entities.Media;
 import com.app_jour_j.mvc.services.IMediaService;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -80,25 +81,43 @@ public class MediaController {
 	
 	private void generatePdf(Media media){
 		Document doc = new Document();
-		
+		Document docFullInfo = new Document();
+
 		try {
 			PdfWriter.getInstance(doc, new FileOutputStream(
 					getClass().getResource("/pdf/medias/").getFile() 
 					+ media.getIdMedia()
 					+"_"+media.getNom() + ".pdf"));
+			PdfWriter.getInstance(docFullInfo, new FileOutputStream(
+					getClass().getResource("/pdf/medias/").getFile() 
+					+ media.getIdMedia()
+					+"_full_"+media.getNom() + ".pdf"));
+			System.out.println(getClass().getResource("/pdf/medias/").getFile() 
+					+ media.getIdMedia()
+					+"_full_"+media.getNom() + ".pdf");
 			Rectangle size = new Rectangle(228, 150);
 			doc.setPageSize(size);
+			docFullInfo.setPageSize(size);
 			doc.addAuthor(EnseignantController.AUTHOR);
+			docFullInfo.addAuthor(EnseignantController.AUTHOR);
 			doc.addTitle("Media");
+			docFullInfo.addTitle("Media_full");
 			doc.open();
-			Phrase infos = new Phrase("Nom : " + media.getNom() +  
-									 		"\nPrénom : " + media.getPrenom() + 
-									 		"\nChaine : " + media.getChaine());
+			docFullInfo.open();
+			Phrase infos = new Phrase("Nom : " + media.getNom() + 
+									  "\nPrenom : " + media.getPrenom() + 
+									  "\nChaine : " + media.getChaine(),
+									  FontFactory.getFont(FontFactory.COURIER, 10));
+			Phrase fullInfos = new Phrase(media.toString(),FontFactory.getFont(FontFactory.COURIER, 10));
 			doc.add(infos);
+			docFullInfo.add(fullInfos);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		doc.close();
+		docFullInfo.close();
+
 		
 	}
 }

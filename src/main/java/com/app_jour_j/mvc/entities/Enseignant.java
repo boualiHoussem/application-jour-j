@@ -60,7 +60,7 @@ public class Enseignant implements Serializable {
 	public String toString() {
 
 		String str = "Nom : " + this.getNom() 
-					+ "\nPrénom : " + this.getPrenom()
+					+ "\nPrenom : " + this.getPrenom()
 					+ "\nGrade : " + this.getGrade();
 		return str;
 	}
